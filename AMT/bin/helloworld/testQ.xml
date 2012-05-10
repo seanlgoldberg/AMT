@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionForm.xsd">
+  <Question>
+    <QuestionIdentifier>1</QuestionIdentifier>
+    <QuestionContent>
+      <Title>FIRST QUESTION</Title>
+      <Text>"What is the meaning of life?"</Text>
+      <FormattedContent>
+        <![CDATA[<p><b>Consider carefully!</b></p>]]>
+      </FormattedContent>
+      <List>
+        <ListItem>Consider the movie by Monty Python.</ListItem>
+        <ListItem>The answer is not 42.</ListItem>
+      </List>
+      <Binary>
+        <MimeType>
+          <Type>image</Type>
+          <SubType>gif</SubType>
+        </MimeType>
+        <DataURL>http://www.the-back-row.com/media/blogs/TBR/gif20.gif</DataURL>
+        <AltText>An awesome movie, but not the meaning of life.</AltText>
+      </Binary>
+    </QuestionContent>
+    <AnswerSpecification>
+      <SelectionAnswer>
+        <StyleSuggestion>radiobutton</StyleSuggestion>
+        <Selections>
+          <Selection>
+            <SelectionIdentifier>notlikely</SelectionIdentifier>
+            <Text>Not likely</Text>
+          </Selection>
+          <Selection>
+            <SelectionIdentifier>unsure</SelectionIdentifier>
+            <Text>It could go either way</Text>
+          </Selection>
+          <Selection>
+            <SelectionIdentifier>likely</SelectionIdentifier>
+            <Text>Likely</Text>
+          </Selection>
+        </Selections>
+      </SelectionAnswer>
+    </AnswerSpecification>
+  </Question>
+</QuestionForm>
