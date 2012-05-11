@@ -20,12 +20,13 @@ import com.amazonaws.mturk.service.axis.RequesterService;
 
 import com.amazonaws.mturk.service.exception.ServiceException;
 import com.amazonaws.mturk.util.PropertiesClientConfig;
-import com.amazonaws.mturk.requester.HIT;
-import com.amazonaws.mturk.requester.QualificationType;
-import com.amazonaws.mturk.requester.QualificationTypeStatus;
+import com.amazonaws.mturk.requester.*;
+import com.amazonaws.mturk.service.axis.*;
+import com.amazonaws.mturk.addon.*;
 
 import java.io.*;
 import java.util.Scanner;
+import java.lang.*;
 
 /**
  * The MTurk Hello World sample application creates a simple HIT via the Mechanical Turk 
@@ -34,6 +35,7 @@ import java.util.Scanner;
 public class MTurkHelloWorld2 {
 
   private RequesterService service;
+  private RequesterServiceRaw serviceRaw;
 
   // Defining the attributes of the HIT to be created
   private String title = "Answer a question";
@@ -91,9 +93,10 @@ public class MTurkHelloWorld2 {
 
   /**
    * Creates the simple HIT.
+ * @throws Exception 
    * 
    */
-  public void createHelloWorld() {
+  public void createHelloWorld() throws Exception {
     try {
 
       // The createHIT method is called using a convenience static method of
@@ -103,27 +106,45 @@ public class MTurkHelloWorld2 {
     	String question = MTurkHelloWorld2.getXML("testQ.xml");
     	String answerKey = MTurkHelloWorld2.getXML("answer.xml");
     	
-    	System.out.println(question);
+    	//System.out.println(question);
+    	//QualificationType qual = service.createQualificationType("UFDSR2", "UF, DSR", qualDescription,
+    	//															QualificationTypeStatus.Active,
+    	//															(long) 0,
+    	//															question,
+    	//															answerKey,
+    	//															(long) 60*60, false, null);
+    	
+    	QualificationRequirement qualRec = new QualificationRequirement();
+    	//String ID = qual.getQualificationTypeId();
+    	String ID = "2RXIXKO2L92HBDCXDRUYRCCF0ESEDD";
+    	System.out.println(ID);
+    	qualRec.setQualificationTypeId(ID);
+    	qualRec.setComparator(Comparator.Exists);
+    	
+    	QualificationRequirement[] qualRecArray = new QualificationRequirement[1];
+    	qualRecArray[0] = qualRec;
     	
     	HIT hit = service.createHIT(
-              title,
-              description,
-              reward,
-              question,
-              numAssignments);
-    	
-    	
-    	QualificationType qual = service.createQualificationType("UFDSR2", "UF, DSR", description);
-    	qual.setTest(question);
-    	qual.setAnswerKey(answerKey);
-    	
+    			null,
+                title,
+                description,
+                null,
+                question,
+                reward,
+                (long) 60*60,
+                (long) 60*60*24*15,
+                (long) 60*60*24*3,
+                1,
+                null,
+                qualRecArray,
+                null);
     	
       System.out.println("Created HIT: " + hit.getHITId());
 
       System.out.println("You may see your HIT with HITTypeId '" 
           + hit.getHITTypeId() + "' here: ");
       System.out.println(service.getWebsiteURL() 
-          + "/mturk/preview?groupId=" + qual.getQualificationTypeId());
+          + "/mturk/preview?groupId=" + hit.getHITTypeId());
 
     } catch (ServiceException e) {
       System.err.println(e.getLocalizedMessage());
@@ -134,8 +155,9 @@ public class MTurkHelloWorld2 {
    * Main method
    * 
    * @param args
+ * @throws Exception 
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
 
     MTurkHelloWorld2 app = new MTurkHelloWorld2();
 
